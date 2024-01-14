@@ -63,9 +63,13 @@ type ServerConfig struct {
 
 // NewServer creates a new Server.
 func NewServer(config ServerConfig) *Server {
+	documentRoot := config.DocumentRoot
+	if config.DocumentRoot == "." {
+		documentRoot, _ = os.Getwd()
+	}
 	return &Server{
 		config,
-		afero.NewBasePathFs(afero.NewOsFs(), config.DocumentRoot),
+		afero.NewBasePathFs(afero.NewOsFs(), documentRoot),
 	}
 }
 
